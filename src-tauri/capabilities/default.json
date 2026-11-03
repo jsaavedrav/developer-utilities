@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "La app no usa APIs nativas: todas las herramientas corren en la página.",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}
