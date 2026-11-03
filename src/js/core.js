@@ -88,14 +88,24 @@
         input.placeholder = opts.placeholder || '';
         card.querySelector('.output-header').appendChild(copyButton(output));
 
+        // `transform` puede ser síncrona o devolver una promesa. Si llegan
+        // resultados fuera de orden, solo se muestra el de la última llamada.
+        let runId = 0;
         function run() {
-          try {
-            output.value = opts.transform(opts.trimInput ? input.value.trim() : input.value);
-            error.textContent = '';
-          } catch (e) {
-            output.value = '';
-            error.textContent = e.message;
-          }
+          const id = ++runId;
+          const value = opts.trimInput ? input.value.trim() : input.value;
+          Promise.resolve()
+            .then(() => opts.transform(value))
+            .then(result => {
+              if (id !== runId) return;
+              output.value = result;
+              error.textContent = '';
+            })
+            .catch(e => {
+              if (id !== runId) return;
+              output.value = '';
+              error.textContent = e.message;
+            });
         }
 
         function addAction(label, onClick, primary) {
@@ -191,6 +201,8 @@
   window.Utilitario = {
     register,
     transformTool,
+    // Lógica pura de cada herramienta (sin interfaz), para reutilizarla y probarla.
+    lib: {},
     helpers: { html, escapeHtml, copyText, copyButton, showToast, prettyJSON }
   };
 })();
