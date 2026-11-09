@@ -242,6 +242,34 @@ button.primary:hover { opacity: 0.82; }
 }
 
 .error { color: var(--error); font-size: 12px; margin-top: 6px; min-height: 16px; }
+.error.busy { color: var(--text-muted); }
+
+.card + .card { margin-top: 1rem; }
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.field { flex: 1; min-width: 180px; }
+.field-small { flex: 0 0 120px; min-width: 0; }
+
+label.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.hash-row + .hash-row { margin-top: 1rem; }
+.hash-row input { opacity: 0.85; }
 
 .toast {
   position: fixed;

@@ -1,6 +1,6 @@
 /* Base64 con soporte UTF-8 (tildes, ñ, emojis). */
 (function () {
-  const { register, transformTool } = window.Utilitario;
+  const { register, transformTool, lib } = window.Utilitario;
 
   function encodeBase64(text) {
     const bytes = new TextEncoder().encode(text);
@@ -17,6 +17,8 @@
     const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
     return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
   }
+
+  lib.base64 = { encode: encodeBase64, decode: decodeBase64 };
 
   register(transformTool({
     id: 'base64-decode',
