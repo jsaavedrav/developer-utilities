@@ -23,6 +23,8 @@ Los resultados de decodificación se pueden formatear como JSON con un clic.
 
 **En el navegador:** abre `src/index.html`. No requiere instalación ni servidor.
 
+**Como sitio web en un contenedor:** ver [Versión web (contenedor)](#versión-web-contenedor).
+
 ## App de escritorio (Tauri)
 
 La app de escritorio es la misma carpeta `src/` empaquetada con [Tauri](https://tauri.app). La configuración está en `src-tauri/`; no hay código nativo propio.
@@ -47,6 +49,24 @@ No es necesario compilar localmente: GitHub lo hace solo (workflow `Instaladores
 
   El workflow crea un release en borrador con todos los instaladores. Revísalo en *Releases* y presiona **Publish**.
 
+## Versión web (contenedor)
+
+La versión web es la misma carpeta `src/` servida por nginx en un contenedor (sin root, puerto 8080). El servidor solo entrega archivos estáticos: todo se procesa en el navegador de quien la usa, igual que en la app de escritorio.
+
+Cada push a `main` publica la imagen en GitHub Container Registry, y cada tag `vX.Y.Z` publica además la versión correspondiente (para `amd64` y `arm64`):
+
+```
+docker run -d -p 8080:8080 ghcr.io/jsaavedrav/developer-utilities:latest
+```
+
+Luego abre <http://localhost:8080>. Para construirla localmente desde el código: `docker compose up --build`.
+
+> **Usa HTTPS al desplegarla.** Los navegadores solo permiten Web Crypto (hash, cifrado AES) y el portapapeles en sitios `https://` o en `localhost`. Por HTTP plano esas herramientas no funcionan. El certificado lo entrega normalmente la plataforma donde despliegas (Cloud Run, Azure Container Apps, Fly.io) o un proxy como Caddy o Traefik.
+
+> La primera vez que se publica, el paquete en GHCR queda **privado**. Para descargarlo sin iniciar sesión, cámbialo a público en GitHub → *Packages* → `developer-utilities` → *Package settings*.
+
+Archivos: `Dockerfile`, `docker/nginx.conf` (cabeceras de seguridad, misma política de contenido que la app de escritorio), `compose.yaml` y el workflow `.github/workflows/web.yml`. El contenedor expone `/healthz` para chequeos de salud.
+
 ## Pruebas
 
 ```
@@ -64,6 +84,7 @@ src/
   js/core.js      Registro de herramientas, menú lateral y helpers compartidos
   tools/          Una herramienta (o familia de herramientas) por archivo
 tests/            Pruebas de la lógica de las herramientas
+docker/           Configuración de nginx para la versión web
 ```
 
 ## Agregar una herramienta
