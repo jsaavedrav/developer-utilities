@@ -1,8 +1,9 @@
 [package]
 name = "developer-utilities"
-version = "0.1.0"
+version = "0.1.1"
 description = "Utilitario standalone con herramientas del día a día para desarrolladores"
 authors = ["José Saavedra"]
+license = "MIT"
 edition = "2021"
 
 [build-dependencies]

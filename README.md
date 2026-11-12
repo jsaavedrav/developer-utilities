@@ -112,3 +112,7 @@ docker/           Configuración de nginx para la versión web
 3. Agrega `<script src="tools/mayusculas.js"></script>` al final de `src/index.html`.
 
 Para herramientas con una interfaz distinta (varios campos, opciones, etc.), registra un objeto con `id`, `group`, `name`, `description` y una función `render(container)` que dibuje su propia interfaz. Si la herramienta tiene lógica que vale la pena probar, exponla en `Utilitario.lib` y agrega una prueba en `tests/`. En `Utilitario.helpers` hay utilidades como `html`, `copyButton` y `showToast`.
+
+## Licencia
+
+[MIT](LICENSE). Puedes usar, copiar, modificar y distribuir este software libremente, manteniendo el aviso de copyright.
